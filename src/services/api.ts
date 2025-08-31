@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { type AxiosResponse } from 'axios';
 import type { ApiError } from '../types';
 
 // Create axios instance with base configuration

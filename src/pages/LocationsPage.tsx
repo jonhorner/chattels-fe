@@ -4,7 +4,7 @@ import { useLocations } from '../hooks';
 import { LoadingSpinner } from '../components/ui/LoadingSpinner';
 
 export const LocationsPage: React.FC = () => {
-  const [page, setPage] = useState(1);
+  const [page] = useState(1);
   const limit = 10;
 
   const { data: locationsData, isLoading, error } = useLocations({ page, limit });
@@ -27,7 +27,6 @@ export const LocationsPage: React.FC = () => {
   }
 
   const locations = locationsData?.data || [];
-  const pagination = locationsData?.pagination;
 
   return (
     <div className="space-y-6">

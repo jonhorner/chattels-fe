@@ -4,7 +4,7 @@ import { useCategories } from '../hooks';
 import { LoadingSpinner } from '../components/ui/LoadingSpinner';
 
 export const CategoriesPage: React.FC = () => {
-  const [page, setPage] = useState(1);
+  const [page] = useState(1);
   const limit = 10;
 
   const { data: categoriesData, isLoading, error } = useCategories({ page, limit });
@@ -27,7 +27,6 @@ export const CategoriesPage: React.FC = () => {
   }
 
   const categories = categoriesData?.data || [];
-  const pagination = categoriesData?.pagination;
 
   return (
     <div className="space-y-6">

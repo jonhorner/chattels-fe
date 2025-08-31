@@ -1,6 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { 
-  Item, 
   CreateItem, 
   UpdateItem, 
   PaginationParams 
