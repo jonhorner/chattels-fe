@@ -89,6 +89,8 @@ export interface PaginatedResponse<T> {
 export interface PaginationParams {
   page?: number;
   limit?: number;
+  categoryId?: number;
+  locationId?: number;
 }
 
 // Extended item type with populated relations (for display purposes)

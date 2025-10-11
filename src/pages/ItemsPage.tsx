@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus, Package } from 'lucide-react';
+import { Plus, Package, Filter } from 'lucide-react';
 import { useItems, useCategories, useLocations } from '../hooks';
 import { LoadingSpinner } from '../components/ui/LoadingSpinner';
 import { AddItemModal } from '../components/AddItemModal';
@@ -7,9 +7,16 @@ import { AddItemModal } from '../components/AddItemModal';
 export const ItemsPage: React.FC = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [page, setPage] = useState(1);
+  const [categoryFilter, setCategoryFilter] = useState<number | undefined>(undefined);
+  const [locationFilter, setLocationFilter] = useState<number | undefined>(undefined);
   const limit = 10;
 
-  const { data: itemsData, isLoading: itemsLoading, error: itemsError } = useItems({ page, limit });
+  const { data: itemsData, isLoading: itemsLoading, error: itemsError } = useItems({ 
+    page, 
+    limit,
+    categoryId: categoryFilter,
+    locationId: locationFilter
+  });
   const { data: categoriesData } = useCategories({ limit: 100 }); // Get all categories for lookup
   const { data: locationsData } = useLocations({ limit: 100 }); // Get all locations for lookup
 
@@ -47,6 +54,26 @@ export const ItemsPage: React.FC = () => {
 
   const items = itemsData?.data || [];
   const pagination = itemsData?.pagination;
+  const categories = categoriesData?.data || [];
+  const locations = locationsData?.data || [];
+
+  const handleCategoryFilterChange = (value: string) => {
+    setCategoryFilter(value ? Number(value) : undefined);
+    setPage(1); // Reset to first page when filter changes
+  };
+
+  const handleLocationFilterChange = (value: string) => {
+    setLocationFilter(value ? Number(value) : undefined);
+    setPage(1); // Reset to first page when filter changes
+  };
+
+  const clearFilters = () => {
+    setCategoryFilter(undefined);
+    setLocationFilter(undefined);
+    setPage(1);
+  };
+
+  const hasActiveFilters = categoryFilter !== undefined || locationFilter !== undefined;
 
   return (
     <div className="space-y-6">
@@ -59,6 +86,58 @@ export const ItemsPage: React.FC = () => {
           <Plus className="h-4 w-4" />
           <span>Add Item</span>
         </button>
+      </div>
+
+      {/* Filters */}
+      <div className="bg-white p-4 rounded-lg shadow">
+        <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-2 text-gray-700">
+            <Filter className="h-5 w-5" />
+            <span className="font-medium">Filters:</span>
+          </div>
+          
+          {/* Category Filter */}
+          <div className="flex-1 max-w-xs">
+            <select
+              value={categoryFilter || ''}
+              onChange={(e) => handleCategoryFilterChange(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            >
+              <option value="">All Categories</option>
+              {categories.map((category) => (
+                <option key={category.id} value={category.id}>
+                  {category.name || 'Unnamed Category'}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Location Filter */}
+          <div className="flex-1 max-w-xs">
+            <select
+              value={locationFilter || ''}
+              onChange={(e) => handleLocationFilterChange(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            >
+              <option value="">All Locations</option>
+              {locations.map((location) => (
+                <option key={location.id} value={location.id}>
+                  {location.name || 'Unnamed Location'}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Clear Filters Button */}
+          {hasActiveFilters && (
+            <button
+              onClick={clearFilters}
+              className="px-4 py-2 text-sm text-gray-600 hover:text-gray-900 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors"
+            >
+              Clear Filters
+            </button>
+          )}
+        </div>
       </div>
 
 
