@@ -203,7 +203,7 @@ export const ItemsPage: React.FC = () => {
                           <h3 className="text-lg font-medium text-gray-900">{item.name}</h3>
                           {item.value && (
                             <span className="text-green-600 font-semibold">
-                              ${item.value.toFixed(2)}
+                              £{item.value.toFixed(2)}
                             </span>
                           )}
                         </div>

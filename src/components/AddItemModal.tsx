@@ -102,7 +102,7 @@ export const AddItemModal: React.FC<AddItemModalProps> = ({ isOpen, onClose }) =
         {/* Value */}
         <div>
           <label htmlFor="itemValue" className="block text-sm font-medium text-gray-700 mb-2">
-            Value ($)
+            Value (£)
           </label>
           <input
             id="itemValue"

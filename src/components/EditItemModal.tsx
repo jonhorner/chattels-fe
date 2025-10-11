@@ -118,7 +118,7 @@ export const EditItemModal: React.FC<EditItemModalProps> = ({ isOpen, onClose, i
         {/* Value */}
         <div>
           <label htmlFor="editItemValue" className="block text-sm font-medium text-gray-700 mb-2">
-            Value ($)
+            Value (£)
           </label>
           <input
             id="editItemValue"
