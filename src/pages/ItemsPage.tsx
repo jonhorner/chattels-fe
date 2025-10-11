@@ -4,8 +4,41 @@ import { useItems, useCategories, useLocations } from '../hooks';
 import { LoadingSpinner } from '../components/ui/LoadingSpinner';
 
 export const ItemsPage: React.FC = () => {
+  const [showAddItemForm, setShowAddItemForm] = useState(false);
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [value, setValue] = useState("");
   const [page, setPage] = useState(1);
   const limit = 10;
+
+const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    try {
+      // TODO - get dynamically
+      const res = await fetch("http://localhost:3000/api/items", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, description }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to add item");
+      }
+
+      const newItem = await res.json();
+
+      console.log("Item created:", newItem);
+
+      // Reset + close form
+      setName("");
+      setDescription("");
+      setValue("");
+      setShowForm(false);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const { data: itemsData, isLoading: itemsLoading, error: itemsError } = useItems({ page, limit });
   const { data: categoriesData } = useCategories({ limit: 100 }); // Get all categories for lookup
@@ -13,12 +46,16 @@ export const ItemsPage: React.FC = () => {
 
   // Create lookup maps for efficient rendering
   const categoriesMap = React.useMemo(() => {
-    if (!categoriesData?.data) return new Map();
+    if (!categoriesData?.data) {
+      return new Map();
+    }
     return new Map(categoriesData.data.map(cat => [cat.id, cat]));
   }, [categoriesData]);
 
   const locationsMap = React.useMemo(() => {
-    if (!locationsData?.data) return new Map();
+    if (!locationsData?.data) {
+      return new Map();
+    }
     return new Map(locationsData.data.map(loc => [loc.id, loc]));
   }, [locationsData]);
 
@@ -46,11 +83,64 @@ export const ItemsPage: React.FC = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold text-gray-900">Items</h1>
-        <button className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+        <button 
+          onClick={() => setShowAddItemForm(!showAddItemForm)}
+          className="flex 
+            items-center 
+            space-x-2 
+            bg-blue-600 text-white 
+            px-4 py-2 
+            rounded-lg 
+            hover:bg-blue-700 
+            transition-colors"
+          >
           <Plus className="h-4 w-4" />
           <span>Add Item</span>
         </button>
       </div>
+
+      {showAddItemForm && (
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-4 bg-gray-100 p-4 rounded-lg shadow"
+        >
+          <div>
+            <label className="block text-sm font-medium">Name</label>
+            <input
+              type="text"
+              value={name}
+              onChange={e => setName(e.target.value)}
+              className="mt-1 block w-full border border-gray-300 rounded p-2"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium">Value</label>
+            <input
+              type="text"
+              value={value}
+              onChange={e => setValue(e.target.value)}
+              className="mt-1 block w-full border border-gray-300 rounded p-2"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium">Description</label>
+            <textarea
+              value={description}
+              onChange={e => setDescription(e.target.value)}
+              className="mt-1 block w-full border border-gray-300 rounded p-2"
+              required
+            />
+          </div>
+          <button
+            type="submit"
+            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+          >
+            Save Item
+          </button>
+        </form>
+      )}
 
       {items.length === 0 ? (
         <div className="text-center py-12 bg-white rounded-lg shadow">

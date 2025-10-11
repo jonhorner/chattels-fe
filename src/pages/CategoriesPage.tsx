@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import { Plus, FolderOpen } from 'lucide-react';
 import { useCategories } from '../hooks';
 import { LoadingSpinner } from '../components/ui/LoadingSpinner';
+import { AddCategoryModal } from '../components/AddCategoryModal';
 
 export const CategoriesPage: React.FC = () => {
   const [page] = useState(1);
   const limit = 10;
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
 
   const { data: categoriesData, isLoading, error } = useCategories({ page, limit });
 
@@ -32,7 +34,10 @@ export const CategoriesPage: React.FC = () => {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold text-gray-900">Categories</h1>
-        <button className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
+        <button 
+          onClick={() => setIsAddModalOpen(true)}
+          className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+        >
           <Plus className="h-4 w-4" />
           <span>Add Category</span>
         </button>
@@ -67,6 +72,11 @@ export const CategoriesPage: React.FC = () => {
           </ul>
         </div>
       )}
+      
+      <AddCategoryModal 
+        isOpen={isAddModalOpen}
+        onClose={() => setIsAddModalOpen(false)}
+      />
     </div>
   );
 };
