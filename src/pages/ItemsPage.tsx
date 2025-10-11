@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
 import { Plus, Package, Filter } from 'lucide-react';
-import { useItems, useCategories, useLocations } from '../hooks';
+import { useItems, useCategories, useLocations, useDeleteItem } from '../hooks';
 import { LoadingSpinner } from '../components/ui/LoadingSpinner';
 import { AddItemModal } from '../components/AddItemModal';
 import { EditItemModal } from '../components/EditItemModal';
+import { ConfirmDialog } from '../components/ui/ConfirmDialog';
 import type { Item } from '../types';
 
 export const ItemsPage: React.FC = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<Item | null>(null);
+  const [itemToDelete, setItemToDelete] = useState<Item | null>(null);
   const [page, setPage] = useState(1);
   const [categoryFilter, setCategoryFilter] = useState<number | undefined>(undefined);
   const [locationFilter, setLocationFilter] = useState<number | undefined>(undefined);
@@ -23,6 +26,7 @@ export const ItemsPage: React.FC = () => {
   });
   const { data: categoriesData } = useCategories({ limit: 100 }); // Get all categories for lookup
   const { data: locationsData } = useLocations({ limit: 100 }); // Get all locations for lookup
+  const deleteItemMutation = useDeleteItem();
 
   // Create lookup maps for efficient rendering
   const categoriesMap = React.useMemo(() => {
@@ -85,6 +89,28 @@ export const ItemsPage: React.FC = () => {
   const handleCloseEditModal = () => {
     setIsEditModalOpen(false);
     setSelectedItem(null);
+  };
+
+  const handleDeleteClick = (item: Item) => {
+    setItemToDelete(item);
+    setIsDeleteDialogOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!itemToDelete) return;
+
+    try {
+      await deleteItemMutation.mutateAsync(itemToDelete.id);
+      setIsDeleteDialogOpen(false);
+      setItemToDelete(null);
+    } catch (error) {
+      console.error('Failed to delete item:', error);
+    }
+  };
+
+  const handleCancelDelete = () => {
+    setIsDeleteDialogOpen(false);
+    setItemToDelete(null);
   };
 
   const hasActiveFilters = categoryFilter !== undefined || locationFilter !== undefined;
@@ -207,7 +233,10 @@ export const ItemsPage: React.FC = () => {
                         >
                           Edit
                         </button>
-                        <button className="text-red-600 hover:text-red-900 text-sm font-medium">
+                        <button 
+                          onClick={() => handleDeleteClick(item)}
+                          className="text-red-600 hover:text-red-900 text-sm font-medium"
+                        >
                           Delete
                         </button>
                       </div>
@@ -280,6 +309,17 @@ export const ItemsPage: React.FC = () => {
         isOpen={isEditModalOpen}
         onClose={handleCloseEditModal}
         item={selectedItem}
+      />
+      
+      <ConfirmDialog
+        isOpen={isDeleteDialogOpen}
+        onClose={handleCancelDelete}
+        onConfirm={handleConfirmDelete}
+        title="Delete Item"
+        message={`Are you sure you want to delete "${itemToDelete?.name}"? This action cannot be undone.`}
+        confirmText="Delete"
+        cancelText="Cancel"
+        isLoading={deleteItemMutation.isPending}
       />
     </div>
   );
