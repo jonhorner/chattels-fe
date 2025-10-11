@@ -43,6 +43,19 @@ export const ItemsPage: React.FC = () => {
     return new Map(locationsData.data.map(loc => [loc.id, loc]));
   }, [locationsData]);
 
+  // Derived state - must be before conditional returns
+  const items = itemsData?.data || [];
+  const pagination = itemsData?.pagination;
+  const categories = categoriesData?.data || [];
+  const locations = locationsData?.data || [];
+
+  // Calculate total value of all items on current page
+  const totalValue = React.useMemo(() => {
+    return items.reduce((sum, item) => {
+      return sum + (item.value || 0);
+    }, 0);
+  }, [items]);
+
   if (itemsLoading) {
     return (
       <div className="flex justify-center items-center h-64">
@@ -59,11 +72,6 @@ export const ItemsPage: React.FC = () => {
       </div>
     );
   }
-
-  const items = itemsData?.data || [];
-  const pagination = itemsData?.pagination;
-  const categories = categoriesData?.data || [];
-  const locations = locationsData?.data || [];
 
   const handleCategoryFilterChange = (value: string) => {
     setCategoryFilter(value ? Number(value) : undefined);
@@ -126,6 +134,22 @@ export const ItemsPage: React.FC = () => {
           <Plus className="h-4 w-4" />
           <span>Add Item</span>
         </button>
+      </div>
+
+      {/* Total Value Card */}
+      <div className="bg-gradient-to-r from-green-50 to-green-100 border border-green-200 rounded-lg p-6 shadow">
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-sm font-medium text-green-900 mb-1">Total Value</p>
+            <p className="text-3xl font-bold text-green-700">£{totalValue.toFixed(2)}</p>
+            <p className="text-xs text-green-600 mt-1">
+              {items.length} {items.length === 1 ? 'item' : 'items'} on this page
+            </p>
+          </div>
+          <div className="bg-green-200 rounded-full p-3">
+            <Package className="h-8 w-8 text-green-700" />
+          </div>
+        </div>
       </div>
 
       {/* Filters */}
