@@ -3,9 +3,13 @@ import { Plus, Package, Filter } from 'lucide-react';
 import { useItems, useCategories, useLocations } from '../hooks';
 import { LoadingSpinner } from '../components/ui/LoadingSpinner';
 import { AddItemModal } from '../components/AddItemModal';
+import { EditItemModal } from '../components/EditItemModal';
+import type { Item } from '../types';
 
 export const ItemsPage: React.FC = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<Item | null>(null);
   const [page, setPage] = useState(1);
   const [categoryFilter, setCategoryFilter] = useState<number | undefined>(undefined);
   const [locationFilter, setLocationFilter] = useState<number | undefined>(undefined);
@@ -71,6 +75,16 @@ export const ItemsPage: React.FC = () => {
     setCategoryFilter(undefined);
     setLocationFilter(undefined);
     setPage(1);
+  };
+
+  const handleEditItem = (item: Item) => {
+    setSelectedItem(item);
+    setIsEditModalOpen(true);
+  };
+
+  const handleCloseEditModal = () => {
+    setIsEditModalOpen(false);
+    setSelectedItem(null);
   };
 
   const hasActiveFilters = categoryFilter !== undefined || locationFilter !== undefined;
@@ -187,7 +201,10 @@ export const ItemsPage: React.FC = () => {
                         </div>
                       </div>
                       <div className="flex items-center space-x-2">
-                        <button className="text-blue-600 hover:text-blue-900 text-sm font-medium">
+                        <button 
+                          onClick={() => handleEditItem(item)}
+                          className="text-blue-600 hover:text-blue-900 text-sm font-medium"
+                        >
                           Edit
                         </button>
                         <button className="text-red-600 hover:text-red-900 text-sm font-medium">
@@ -257,6 +274,12 @@ export const ItemsPage: React.FC = () => {
       <AddItemModal 
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
+      />
+      
+      <EditItemModal 
+        isOpen={isEditModalOpen}
+        onClose={handleCloseEditModal}
+        item={selectedItem}
       />
     </div>
   );
