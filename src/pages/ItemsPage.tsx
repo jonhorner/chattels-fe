@@ -5,6 +5,7 @@ import { LoadingSpinner } from '../components/ui/LoadingSpinner';
 import { AddItemModal } from '../components/AddItemModal';
 import { EditItemModal } from '../components/EditItemModal';
 import { ConfirmDialog } from '../components/ui/ConfirmDialog';
+import { ItemAttachments } from '../components/ItemAttachments';
 import type { Item } from '../types';
 
 export const ItemsPage: React.FC = () => {
@@ -13,6 +14,7 @@ export const ItemsPage: React.FC = () => {
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<Item | null>(null);
   const [itemToDelete, setItemToDelete] = useState<Item | null>(null);
+  const [expandedAttachments, setExpandedAttachments] = useState<Set<number>>(new Set());
   const [page, setPage] = useState(1);
   const [categoryFilter, setCategoryFilter] = useState<number | undefined>(undefined);
   const [locationFilter, setLocationFilter] = useState<number | undefined>(undefined);
@@ -121,6 +123,18 @@ export const ItemsPage: React.FC = () => {
     setItemToDelete(null);
   };
 
+  const toggleAttachments = (itemId: number) => {
+    setExpandedAttachments(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(itemId)) {
+        newSet.delete(itemId);
+      } else {
+        newSet.add(itemId);
+      }
+      return newSet;
+    });
+  };
+
   const hasActiveFilters = categoryFilter !== undefined || locationFilter !== undefined;
 
   return (
@@ -220,51 +234,59 @@ export const ItemsPage: React.FC = () => {
                 const location = item.locationId ? locationsMap.get(item.locationId) : null;
                 
                 return (
-                  <li key={item.id} className="px-6 py-4 hover:bg-gray-50">
-                    <div className="flex items-center justify-between">
-                      <div className="flex-1">
-                        <div className="flex items-center space-x-3">
-                          <h3 className="text-lg font-medium text-gray-900">{item.name}</h3>
-                          {item.value && (
-                            <span className="text-green-600 font-semibold">
-                              £{item.value.toFixed(2)}
-                            </span>
+                  <li key={item.id}>
+                    <div className="px-6 py-4 hover:bg-gray-50">
+                      <div className="flex items-center justify-between">
+                        <div className="flex-1">
+                          <div className="flex items-center space-x-3">
+                            <h3 className="text-lg font-medium text-gray-900">{item.name}</h3>
+                            {item.value && (
+                              <span className="text-green-600 font-semibold">
+                                £{item.value.toFixed(2)}
+                              </span>
+                            )}
+                          </div>
+                          {item.description && (
+                            <p className="text-gray-500 mt-1">{item.description}</p>
                           )}
+                          <div className="flex items-center space-x-4 mt-2 text-sm text-gray-500">
+                            {category && (
+                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                {category.name}
+                              </span>
+                            )}
+                            {location && (
+                              <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                {location.name}
+                              </span>
+                            )}
+                            {item.updatedAt && (
+                              <span>Updated: {item.updatedAt}</span>
+                            )}
+                          </div>
                         </div>
-                        {item.description && (
-                          <p className="text-gray-500 mt-1">{item.description}</p>
-                        )}
-                        <div className="flex items-center space-x-4 mt-2 text-sm text-gray-500">
-                          {category && (
-                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                              {category.name}
-                            </span>
-                          )}
-                          {location && (
-                            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                              {location.name}
-                            </span>
-                          )}
-                          {item.updatedAt && (
-                            <span>Updated: {item.updatedAt}</span>
-                          )}
+                        <div className="flex items-center space-x-2">
+                          <button 
+                            onClick={() => handleEditItem(item)}
+                            className="text-blue-600 hover:text-blue-900 text-sm font-medium"
+                          >
+                            Edit
+                          </button>
+                          <button 
+                            onClick={() => handleDeleteClick(item)}
+                            className="text-red-600 hover:text-red-900 text-sm font-medium"
+                          >
+                            Delete
+                          </button>
                         </div>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <button 
-                          onClick={() => handleEditItem(item)}
-                          className="text-blue-600 hover:text-blue-900 text-sm font-medium"
-                        >
-                          Edit
-                        </button>
-                        <button 
-                          onClick={() => handleDeleteClick(item)}
-                          className="text-red-600 hover:text-red-900 text-sm font-medium"
-                        >
-                          Delete
-                        </button>
                       </div>
                     </div>
+                    {/* Attachments Section */}
+                    <ItemAttachments
+                      itemId={item.id}
+                      isExpanded={expandedAttachments.has(item.id)}
+                      onToggle={() => toggleAttachments(item.id)}
+                    />
                   </li>
                 );
               })}

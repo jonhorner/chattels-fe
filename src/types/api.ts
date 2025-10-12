@@ -24,6 +24,17 @@ export interface Item {
   updatedAt?: string;
 }
 
+export interface Attachment {
+  id: number;
+  itemId: number;
+  filename: string;
+  originalName: string;
+  mimeType: string;
+  size: number;
+  path: string;
+  uploadedAt: string;
+}
+
 // Create/Update types (for POST/PUT requests)
 export interface CreateUser {
   name?: string;
