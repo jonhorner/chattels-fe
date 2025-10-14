@@ -34,11 +34,25 @@ const theme = createTheme({
       '#990000',
       '#800000',
     ],
+    dark: [
+      '#d5d7e0',
+      '#acaebf',
+      '#8c8fa3',
+      '#666980',
+      '#4d4f66',
+      '#34354a',
+      '#2b2c3d',
+      '#1d1e30',
+      '#0c0d21',
+      '#01010a',
+    ],
   },
   fontFamily: 'system-ui, -apple-system, sans-serif',
   headings: {
     fontFamily: 'system-ui, -apple-system, sans-serif',
   },
+  defaultRadius: 'md',
+  primaryShade: 6,
 });
 
 function App() {

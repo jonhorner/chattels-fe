@@ -32,10 +32,9 @@ import {
   IconAlertCircle,
 } from '@tabler/icons-react';
 import { useItems, useCategories, useLocations, useDeleteItem } from '../hooks';
-import { LoadingSpinner } from '../components/ui/LoadingSpinner';
-import { AddItemModal } from '../components/AddItemModal';
-import { EditItemModal } from '../components/EditItemModal';
-import { ConfirmDialog } from '../components/ui/ConfirmDialog';
+import { AddItemModalMantine } from '../components/AddItemModalMantine';
+import { EditItemModalMantine } from '../components/EditItemModalMantine';
+import { ConfirmDialogMantine } from '../components/ConfirmDialogMantine';
 import { ItemAttachments } from '../components/ItemAttachments';
 import type { Item } from '../types';
 
@@ -419,12 +418,12 @@ export const ItemsPageMantine: React.FC = () => {
       )}
 
       {/* Modals */}
-      <AddItemModal 
+      <AddItemModalMantine 
         isOpen={isAddModalOpen}
         onClose={() => setIsAddModalOpen(false)}
       />
       
-      <EditItemModal 
+      <EditItemModalMantine 
         isOpen={isEditModalOpen}
         onClose={() => {
           setIsEditModalOpen(false);
@@ -433,7 +432,7 @@ export const ItemsPageMantine: React.FC = () => {
         item={selectedItem}
       />
       
-      <ConfirmDialog
+      <ConfirmDialogMantine
         isOpen={isDeleteDialogOpen}
         onClose={() => {
           setIsDeleteDialogOpen(false);
