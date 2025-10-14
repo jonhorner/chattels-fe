@@ -1,45 +1,68 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Package, FolderOpen, MapPin } from 'lucide-react';
+import { Group, Text, UnstyledButton, Title, Container } from '@mantine/core';
+import { IconPackage, IconFolder, IconMapPin } from '@tabler/icons-react';
 
 export const Header: React.FC = () => {
   const location = useLocation();
 
   const navItems = [
-    { path: '/', label: 'Items', icon: Package },
-    { path: '/categories', label: 'Categories', icon: FolderOpen },
-    { path: '/locations', label: 'Locations', icon: MapPin },
+    { path: '/', label: 'Items', icon: IconPackage },
+    { path: '/categories', label: 'Categories', icon: IconFolder },
+    { path: '/locations', label: 'Locations', icon: IconMapPin },
   ];
 
   return (
-    <header className="bg-white shadow-sm border-b border-gray-200">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center py-4">
-          <div className="flex items-center">
-            <Link to="/" className="flex items-center space-x-2">
-              <Package className="h-8 w-8 text-blue-600" />
-              <h1 className="text-2xl font-bold text-gray-900">Chattels</h1>
-            </Link>
-          </div>
+    <header style={{
+      background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)',
+      borderBottom: '1px solid #e03131',
+      height: '70px',
+      display: 'flex',
+      alignItems: 'center'
+    }}>
+      <Container size="xl" px="lg" style={{ width: '100%' }}>
+        <Group justify="space-between" h="100%">
+          <Link to="/" style={{ textDecoration: 'none' }}>
+            <Group gap="sm">
+              <IconPackage size={32} color="#e03131" />
+              <Title order={2} c="white" fw={700}>
+                Chattels
+              </Title>
+            </Group>
+          </Link>
           
-          <nav className="flex space-x-6">
+          <Group gap="xs">
             {navItems.map(({ path, label, icon: Icon }) => (
-              <Link
+              <UnstyledButton
                 key={path}
+                component={Link}
                 to={path}
-                className={`flex items-center space-x-1 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                  location.pathname === path
-                    ? 'bg-blue-100 text-blue-700'
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100'
-                }`}
+                px="md"
+                py="sm"
+                style={{
+                  borderRadius: '8px',
+                  backgroundColor: location.pathname === path ? '#e03131' : 'transparent',
+                  transition: 'all 0.2s ease',
+                  '&:hover': {
+                    backgroundColor: location.pathname === path ? '#cc2b2b' : 'rgba(224, 49, 49, 0.1)',
+                  }
+                }}
               >
-                <Icon className="h-4 w-4" />
-                <span>{label}</span>
-              </Link>
+                <Group gap="xs">
+                  <Icon size={18} color={location.pathname === path ? 'white' : '#e03131'} />
+                  <Text 
+                    size="sm" 
+                    fw={500} 
+                    c={location.pathname === path ? 'white' : '#e03131'}
+                  >
+                    {label}
+                  </Text>
+                </Group>
+              </UnstyledButton>
             ))}
-          </nav>
-        </div>
-      </div>
+          </Group>
+        </Group>
+      </Container>
     </header>
   );
 };

@@ -1,4 +1,5 @@
 import React from 'react';
+import { AppShell, Container } from '@mantine/core';
 import { Header } from './Header';
 
 interface LayoutProps {
@@ -7,11 +8,23 @@ interface LayoutProps {
 
 export const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header />
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {children}
-      </main>
-    </div>
+    <AppShell
+      header={{ height: 70 }}
+      padding="md"
+      style={{
+        background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)',
+        minHeight: '100vh',
+      }}
+    >
+      <AppShell.Header>
+        <Header />
+      </AppShell.Header>
+      
+      <AppShell.Main>
+        <Container size="xl" px="lg">
+          {children}
+        </Container>
+      </AppShell.Main>
+    </AppShell>
   );
 };

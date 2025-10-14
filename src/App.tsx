@@ -1,9 +1,11 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { MantineProvider, createTheme } from '@mantine/core';
 import { Layout } from './components/layout';
-import { ItemsPage } from './pages/ItemsPage';
+import { ItemsPageMantine as ItemsPage } from './pages/ItemsPageMantine';
 import { CategoriesPage } from './pages/CategoriesPage';
 import { LocationsPage } from './pages/LocationsPage';
+import '@mantine/core/styles.css';
 
 // Create a client for React Query
 const queryClient = new QueryClient({
@@ -15,19 +17,45 @@ const queryClient = new QueryClient({
   },
 });
 
+// Create Mantine theme with dark red color scheme
+const theme = createTheme({
+  colorScheme: 'dark',
+  primaryColor: 'red',
+  colors: {
+    red: [
+      '#ffe6e6',
+      '#ffb3b3',
+      '#ff8080',
+      '#ff4d4d',
+      '#ff1a1a',
+      '#e60000',
+      '#cc0000',
+      '#b30000',
+      '#990000',
+      '#800000',
+    ],
+  },
+  fontFamily: 'system-ui, -apple-system, sans-serif',
+  headings: {
+    fontFamily: 'system-ui, -apple-system, sans-serif',
+  },
+});
+
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <Router>
-        <Layout>
-          <Routes>
-            <Route path="/" element={<ItemsPage />} />
-            <Route path="/categories" element={<CategoriesPage />} />
-            <Route path="/locations" element={<LocationsPage />} />
-          </Routes>
-        </Layout>
-      </Router>
-    </QueryClientProvider>
+    <MantineProvider theme={theme}>
+      <QueryClientProvider client={queryClient}>
+        <Router>
+          <Layout>
+            <Routes>
+              <Route path="/" element={<ItemsPage />} />
+              <Route path="/categories" element={<CategoriesPage />} />
+              <Route path="/locations" element={<LocationsPage />} />
+            </Routes>
+          </Layout>
+        </Router>
+      </QueryClientProvider>
+    </MantineProvider>
   );
 }
 
