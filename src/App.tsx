@@ -4,7 +4,7 @@ import { MantineProvider, createTheme } from '@mantine/core';
 import { Layout } from './components/layout';
 import { ItemsPageMantine as ItemsPage } from './pages/ItemsPageMantine';
 import { CategoriesPageMantine as CategoriesPage } from './pages/CategoriesPageMantine';
-import { LocationsPage } from './pages/LocationsPage';
+import { LocationsPageMantine as LocationsPage } from './pages/LocationsPageMantine';
 import '@mantine/core/styles.css';
 
 // Create a client for React Query
