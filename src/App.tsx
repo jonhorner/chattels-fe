@@ -3,7 +3,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { MantineProvider, createTheme } from '@mantine/core';
 import { Layout } from './components/layout';
 import { ItemsPageMantine as ItemsPage } from './pages/ItemsPageMantine';
-import { CategoriesPage } from './pages/CategoriesPage';
+import { CategoriesPageMantine as CategoriesPage } from './pages/CategoriesPageMantine';
 import { LocationsPage } from './pages/LocationsPage';
 import '@mantine/core/styles.css';
 
