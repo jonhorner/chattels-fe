@@ -35,7 +35,7 @@ import { useItems, useCategories, useLocations, useDeleteItem } from '../hooks';
 import { AddItemModalMantine } from '../components/AddItemModalMantine';
 import { EditItemModalMantine } from '../components/EditItemModalMantine';
 import { ConfirmDialogMantine } from '../components/ConfirmDialogMantine';
-import { ItemAttachments } from '../components/ItemAttachments';
+import { ItemAttachmentsMantine } from '../components/ItemAttachmentsMantine';
 import type { Item } from '../types';
 
 export const ItemsPageMantine: React.FC = () => {
@@ -422,7 +422,7 @@ export const ItemsPageMantine: React.FC = () => {
                     <Button
                       fullWidth
                       variant="subtle"
-                      color="dimmed"
+                      color="blue"
                       size="sm"
                       mt="xs"
                       rightSection={
@@ -431,13 +431,21 @@ export const ItemsPageMantine: React.FC = () => {
                         <IconChevronDown size={16} />
                       }
                       onClick={() => toggleAttachments(item.id)}
+                      styles={{
+                        root: {
+                          color: '#92bbe3',
+                          '&:hover': {
+                            backgroundColor: 'rgba(146, 187, 227, 0.1)',
+                          },
+                        },
+                      }}
                     >
                       {expandedAttachments.has(item.id) ? 'Hide' : 'Show'} Attachments
                     </Button>
 
                     {expandedAttachments.has(item.id) && (
                       <Card.Section mt="md" pt="md" style={{ borderTop: '1px solid #2d2d2d' }}>
-                        <ItemAttachments
+                        <ItemAttachmentsMantine
                           itemId={item.id}
                           isExpanded={expandedAttachments.has(item.id)}
                           onToggle={() => toggleAttachments(item.id)}
