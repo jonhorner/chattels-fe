@@ -17,22 +17,22 @@ const queryClient = new QueryClient({
   },
 });
 
-// Create Mantine theme with dark red color scheme
+// Create Mantine theme with blue color scheme
 const theme = createTheme({
   colorScheme: 'dark',
-  primaryColor: 'red',
+  primaryColor: 'blue',
   colors: {
-    red: [
-      '#ffe6e6',
-      '#ffb3b3',
-      '#ff8080',
-      '#ff4d4d',
-      '#ff1a1a',
-      '#e60000',
-      '#cc0000',
-      '#b30000',
-      '#990000',
-      '#800000',
+    blue: [
+      '#e6f2ff',
+      '#b3d9ff',
+      '#80c1ff',
+      '#4da8ff',
+      '#92bbe3', // Light blue
+      '#6ba3d6',
+      '#4a8bc2',
+      '#2973ae',
+      '#134168', // Dark blue
+      '#0a2c4a',
     ],
     dark: [
       '#d5d7e0',
@@ -44,7 +44,7 @@ const theme = createTheme({
       '#2b2c3d',
       '#1d1e30',
       '#0c0d21',
-      '#01010a',
+      '#010d17', // Very dark blue
     ],
   },
   fontFamily: 'system-ui, -apple-system, sans-serif',

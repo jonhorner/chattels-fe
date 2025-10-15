@@ -14,8 +14,8 @@ export const Header: React.FC = () => {
 
   return (
     <header style={{
-      background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)',
-      borderBottom: '1px solid #e03131',
+      background: 'linear-gradient(135deg, #010d17 0%, #1a1a1a 100%)',
+      borderBottom: '1px solid #92bbe3',
       height: '70px',
       display: 'flex',
       alignItems: 'center'
@@ -24,7 +24,7 @@ export const Header: React.FC = () => {
         <Group justify="space-between" h="100%">
           <Link to="/" style={{ textDecoration: 'none' }}>
             <Group gap="sm">
-              <IconPackage size={32} color="#e03131" />
+              <IconPackage size={32} color="#92bbe3" />
               <Title order={2} c="white" fw={700}>
                 Chattels
               </Title>
@@ -41,19 +41,19 @@ export const Header: React.FC = () => {
                 py="sm"
                 style={{
                   borderRadius: '8px',
-                  backgroundColor: location.pathname === path ? '#e03131' : 'transparent',
+                  backgroundColor: location.pathname === path ? '#134168' : 'transparent',
                   transition: 'all 0.2s ease',
                   '&:hover': {
-                    backgroundColor: location.pathname === path ? '#cc2b2b' : 'rgba(224, 49, 49, 0.1)',
+                    backgroundColor: location.pathname === path ? '#0f3054' : 'rgba(146, 187, 227, 0.1)',
                   }
                 }}
               >
                 <Group gap="xs">
-                  <Icon size={18} color={location.pathname === path ? 'white' : '#e03131'} />
+                  <Icon size={18} color={location.pathname === path ? 'white' : '#92bbe3'} />
                   <Text 
                     size="sm" 
                     fw={500} 
-                    c={location.pathname === path ? 'white' : '#e03131'}
+                    c={location.pathname === path ? 'white' : '#92bbe3'}
                   >
                     {label}
                   </Text>

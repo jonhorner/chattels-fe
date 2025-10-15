@@ -83,7 +83,7 @@ export const ItemsPageMantine: React.FC = () => {
     return (
       <Center h={400}>
         <Stack align="center">
-          <Loader size="xl" color="red" />
+          <Loader size="xl" color="blue" />
           <Text size="lg" c="dimmed">Loading items...</Text>
         </Stack>
       </Center>
@@ -92,7 +92,7 @@ export const ItemsPageMantine: React.FC = () => {
 
   if (itemsError) {
     return (
-      <Alert variant="light" color="red" title="Error loading items" icon={<IconAlertCircle />}>
+      <Alert variant="light" color="blue" title="Error loading items" icon={<IconAlertCircle />}>
         {itemsError.message}
       </Alert>
     );
@@ -162,7 +162,7 @@ export const ItemsPageMantine: React.FC = () => {
           size="lg"
           radius="md"
           variant="gradient"
-          gradient={{ from: 'red.6', to: 'red.8' }}
+          gradient={{ from: 'blue.4', to: 'blue.8' }}
         >
           Add Item
         </Button>
@@ -170,8 +170,8 @@ export const ItemsPageMantine: React.FC = () => {
 
       {/* Total Value Card */}
       <Card shadow="xl" padding="xl" radius="lg" withBorder style={{ 
-        background: 'linear-gradient(135deg, #2d1b1b 0%, #1a1a1a 100%)',
-        border: '1px solid #e03131'
+        background: 'linear-gradient(135deg, #010d17 0%, #1a1a1a 100%)',
+        border: '1px solid #92bbe3'
       }}>
         <Group justify="space-between" align="center">
           <Box>
@@ -189,7 +189,7 @@ export const ItemsPageMantine: React.FC = () => {
             size={80}
             radius="xl"
             variant="gradient"
-            gradient={{ from: 'red.6', to: 'red.8' }}
+            gradient={{ from: 'blue.4', to: 'blue.8' }}
           >
             <IconPackage size={40} />
           </ActionIcon>
@@ -198,8 +198,8 @@ export const ItemsPageMantine: React.FC = () => {
 
       {/* Filters */}
       <Paper shadow="lg" radius="lg" p="lg" withBorder style={{
-        background: 'linear-gradient(135deg, #2d1b1b 0%, #1a1a1a 100%)',
-        border: '1px solid #e03131'
+        background: 'linear-gradient(135deg, #010d17 0%, #1a1a1a 100%)',
+        border: '1px solid #92bbe3'
       }}>
         <Group align="center" gap="md">
           <Group gap="xs" c="dimmed">
@@ -237,7 +237,7 @@ export const ItemsPageMantine: React.FC = () => {
             <Button
               leftSection={<IconFilterX size={16} />}
               variant="light"
-              color="red"
+              color="blue"
               onClick={clearFilters}
               radius="md"
             >
@@ -250,8 +250,8 @@ export const ItemsPageMantine: React.FC = () => {
       {/* Items Grid */}
       {items.length === 0 ? (
         <Card shadow="lg" padding="xl" radius="lg" withBorder style={{
-          background: 'linear-gradient(135deg, #2d1b1b 0%, #1a1a1a 100%)',
-          border: '1px solid #e03131'
+          background: 'linear-gradient(135deg, #010d17 0%, #1a1a1a 100%)',
+          border: '1px solid #92bbe3'
         }}>
           <Center py="xl">
             <Stack align="center" gap="md">
@@ -277,12 +277,12 @@ export const ItemsPageMantine: React.FC = () => {
                     withBorder
                     h="100%"
                     style={{
-                      background: 'linear-gradient(135deg, #2d1b1b 0%, #1a1a1a 100%)',
-                      border: '1px solid #e03131',
+                      background: 'linear-gradient(135deg, rgb(1, 13, 23) 0%, rgb(26, 26, 26) 100%)',
+                      border: '1px solid #92bbe3',
                       transition: 'all 0.3s ease',
                       '&:hover': {
                         transform: 'translateY(-4px)',
-                        boxShadow: '0 20px 40px rgba(0,0,0,0.3)',
+                        boxShadow: '0 20px 40px rgba(146, 187, 227, 0.3)',
                       }
                     }}
                   >
@@ -316,7 +316,7 @@ export const ItemsPageMantine: React.FC = () => {
                     {(category || location) && (
                       <Group gap="xs" mt="sm">
                         {category && (
-                          <Badge variant="light" color="red" size="sm">
+                          <Badge variant="light" color="blue" size="sm">
                             {category.name}
                           </Badge>
                         )}
@@ -340,7 +340,7 @@ export const ItemsPageMantine: React.FC = () => {
                       <Button
                         leftSection={<IconEdit size={16} />}
                         variant="gradient"
-                        gradient={{ from: 'red.6', to: 'red.8' }}
+                        gradient={{ from: 'blue.4', to: 'blue.8' }}
                         onClick={() => handleEditItem(item)}
                         size="sm"
                         radius="md"
@@ -393,8 +393,8 @@ export const ItemsPageMantine: React.FC = () => {
           {/* Pagination */}
           {pagination && pagination.total > limit && (
             <Paper shadow="lg" radius="lg" p="lg" withBorder style={{
-              background: 'linear-gradient(135deg, #2d1b1b 0%, #1a1a1a 100%)',
-              border: '1px solid #e03131'
+              background: 'linear-gradient(135deg, #010d17 0%, #1a1a1a 100%)',
+              border: '1px solid #92bbe3'
             }}>
               <Group justify="space-between" align="center">
                 <Text size="sm" c="dimmed">
@@ -407,7 +407,7 @@ export const ItemsPageMantine: React.FC = () => {
                   value={page}
                   onChange={setPage}
                   total={Math.ceil(pagination.total / limit)}
-                  color="red"
+                  color="blue"
                   radius="md"
                   size="sm"
                 />

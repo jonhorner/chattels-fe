@@ -46,7 +46,7 @@ export const LocationsPageMantine: React.FC = () => {
     return (
       <Center h={400}>
         <Stack align="center">
-          <Loader size="xl" color="red" />
+          <Loader size="xl" color="blue" />
           <Text size="lg" c="dimmed">Loading locations...</Text>
         </Stack>
       </Center>
@@ -55,7 +55,7 @@ export const LocationsPageMantine: React.FC = () => {
 
   if (error) {
     return (
-      <Alert variant="light" color="red" title="Error loading locations" icon={<IconAlertCircle />}>
+      <Alert variant="light" color="blue" title="Error loading locations" icon={<IconAlertCircle />}>
         {error.message}
       </Alert>
     );
@@ -105,7 +105,7 @@ export const LocationsPageMantine: React.FC = () => {
           size="lg"
           radius="md"
           variant="gradient"
-          gradient={{ from: 'red.6', to: 'red.8' }}
+          gradient={{ from: 'blue.4', to: 'blue.8' }}
         >
           Add Location
         </Button>
@@ -114,8 +114,8 @@ export const LocationsPageMantine: React.FC = () => {
       {/* Locations Grid */}
       {locations.length === 0 ? (
         <Card shadow="lg" padding="xl" radius="lg" withBorder style={{
-          background: 'linear-gradient(135deg, #2d1b1b 0%, #1a1a1a 100%)',
-          border: '1px solid #e03131'
+          background: 'linear-gradient(135deg, rgb(1, 13, 23) 0%, rgb(26, 26, 26) 100%)',
+          border: '1px solid #92bbe3'
         }}>
           <Center py="xl">
             <Stack align="center" gap="md">
@@ -138,8 +138,8 @@ export const LocationsPageMantine: React.FC = () => {
                   withBorder
                   h="100%"
                   style={{
-                    background: 'linear-gradient(135deg, #2d1b1b 0%, #1a1a1a 100%)',
-                    border: '1px solid #e03131',
+                    background: 'linear-gradient(135deg, rgb(1, 13, 23) 0%, rgb(26, 26, 26) 100%)',
+                    border: '1px solid #92bbe3',
                     transition: 'all 0.3s ease',
                     cursor: 'pointer',
                   }}
@@ -152,7 +152,7 @@ export const LocationsPageMantine: React.FC = () => {
                         size={60}
                         radius="xl"
                         variant="gradient"
-                        gradient={{ from: 'red.6', to: 'red.8' }}
+                        gradient={{ from: 'blue.4', to: 'blue.8' }}
                       >
                         <IconMapPin size={30} />
                       </ActionIcon>
@@ -173,7 +173,7 @@ export const LocationsPageMantine: React.FC = () => {
                       <Button
                         leftSection={<IconEdit size={16} />}
                         variant="gradient"
-                        gradient={{ from: 'red.6', to: 'red.8' }}
+                        gradient={{ from: 'blue.4', to: 'blue.8' }}
                         onClick={(e) => {
                           e.stopPropagation();
                           handleEditLocation(location);
@@ -208,8 +208,8 @@ export const LocationsPageMantine: React.FC = () => {
           {/* Pagination */}
           {pagination && pagination.total > limit && (
             <Paper shadow="lg" radius="lg" p="lg" withBorder style={{
-              background: 'linear-gradient(135deg, #2d1b1b 0%, #1a1a1a 100%)',
-              border: '1px solid #e03131'
+              background: 'linear-gradient(135deg, rgb(1, 13, 23) 0%, rgb(26, 26, 26) 100%)',
+              border: '1px solid #92bbe3'
             }}>
               <Group justify="space-between" align="center">
                 <Text size="sm" c="dimmed">
@@ -222,7 +222,7 @@ export const LocationsPageMantine: React.FC = () => {
                   value={page}
                   onChange={setPage}
                   total={Math.ceil(pagination.total / limit)}
-                  color="red"
+                  color="blue"
                   radius="md"
                   size="sm"
                 />

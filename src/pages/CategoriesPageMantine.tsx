@@ -46,7 +46,7 @@ export const CategoriesPageMantine: React.FC = () => {
     return (
       <Center h={400}>
         <Stack align="center">
-          <Loader size="xl" color="red" />
+          <Loader size="xl" color="blue" />
           <Text size="lg" c="dimmed">Loading categories...</Text>
         </Stack>
       </Center>
@@ -55,7 +55,7 @@ export const CategoriesPageMantine: React.FC = () => {
 
   if (error) {
     return (
-      <Alert variant="light" color="red" title="Error loading categories" icon={<IconAlertCircle />}>
+      <Alert variant="light" color="blue" title="Error loading categories" icon={<IconAlertCircle />}>
         {error.message}
       </Alert>
     );
@@ -105,7 +105,7 @@ export const CategoriesPageMantine: React.FC = () => {
           size="lg"
           radius="md"
           variant="gradient"
-          gradient={{ from: 'red.6', to: 'red.8' }}
+          gradient={{ from: 'blue.4', to: 'blue.8' }}
         >
           Add Category
         </Button>
@@ -114,8 +114,8 @@ export const CategoriesPageMantine: React.FC = () => {
       {/* Categories Grid */}
       {categories.length === 0 ? (
         <Card shadow="lg" padding="xl" radius="lg" withBorder style={{
-          background: 'linear-gradient(135deg, #2d1b1b 0%, #1a1a1a 100%)',
-          border: '1px solid #e03131'
+          background: 'linear-gradient(135deg, #010d17 0%, #1a1a1a 100%)',
+          border: '1px solid #92bbe3'
         }}>
           <Center py="xl">
             <Stack align="center" gap="md">
@@ -138,8 +138,8 @@ export const CategoriesPageMantine: React.FC = () => {
                   withBorder
                   h="100%"
                   style={{
-                    background: 'linear-gradient(135deg, #2d1b1b 0%, #1a1a1a 100%)',
-                    border: '1px solid #e03131',
+                    background: 'linear-gradient(135deg, rgb(1, 13, 23) 0%, rgb(26, 26, 26) 100%)',
+                    border: '1px solid #92bbe3',
                     transition: 'all 0.3s ease',
                     cursor: 'pointer',
                   }}
@@ -152,7 +152,7 @@ export const CategoriesPageMantine: React.FC = () => {
                         size={60}
                         radius="xl"
                         variant="gradient"
-                        gradient={{ from: 'red.6', to: 'red.8' }}
+                        gradient={{ from: 'blue.4', to: 'blue.8' }}
                       >
                         <IconFolder size={30} />
                       </ActionIcon>
@@ -173,7 +173,7 @@ export const CategoriesPageMantine: React.FC = () => {
                       <Button
                         leftSection={<IconEdit size={16} />}
                         variant="gradient"
-                        gradient={{ from: 'red.6', to: 'red.8' }}
+                        gradient={{ from: 'blue.4', to: 'blue.8' }}
                         onClick={(e) => {
                           e.stopPropagation();
                           handleEditCategory(category);
@@ -208,8 +208,8 @@ export const CategoriesPageMantine: React.FC = () => {
           {/* Pagination */}
           {pagination && pagination.total > limit && (
             <Paper shadow="lg" radius="lg" p="lg" withBorder style={{
-              background: 'linear-gradient(135deg, #2d1b1b 0%, #1a1a1a 100%)',
-              border: '1px solid #e03131'
+              background: 'linear-gradient(135deg, rgb(1, 13, 23) 0%, rgb(26, 26, 26) 100%)',
+              border: '1px solid #92bbe3'
             }}>
               <Group justify="space-between" align="center">
                 <Text size="sm" c="dimmed">
@@ -222,7 +222,7 @@ export const CategoriesPageMantine: React.FC = () => {
                   value={page}
                   onChange={setPage}
                   total={Math.ceil(pagination.total / limit)}
-                  color="red"
+                  color="blue"
                   radius="md"
                   size="sm"
                 />

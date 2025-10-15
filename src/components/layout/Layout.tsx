@@ -12,7 +12,7 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
       header={{ height: 70 }}
       padding="md"
       style={{
-        background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%)',
+        background: 'linear-gradient(135deg, #010d17 0%, #1a1a1a 100%)',
         minHeight: '100vh',
       }}
     >

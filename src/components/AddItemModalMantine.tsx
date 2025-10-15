@@ -88,7 +88,7 @@ export const AddItemModalMantine: React.FC<AddItemModalProps> = ({
       onClose={handleClose}
       title={
         <Group gap="sm">
-          <IconPlus size={24} color="#e03131" />
+          <IconPlus size={24} color="#92bbe3" />
           <Text size="xl" fw={600}>
             Add New Item
           </Text>
@@ -103,20 +103,26 @@ export const AddItemModalMantine: React.FC<AddItemModalProps> = ({
       }}
       styles={{
         modal: {
-          backgroundColor: "#1a1a1a",
-          border: "2px solid #e03131",
-          boxShadow: "0 25px 50px -12px rgba(224, 49, 49, 0.25)",
+          backgroundColor: "#010d17",
+          border: "2px solid #92bbe3",
+          boxShadow: "0 25px 50px -12px rgba(146, 187, 227, 0.25)",
+        },
+        header: {
+          backgroundColor: "#010d17",
+          borderBottom: "1px solid #92bbe3",
+          paddingBottom: "1rem",
+          marginBottom: "1.5rem",
         },
         close: {
-          color: "#e03131",
+          color: "#92bbe3",
           backgroundColor: "transparent",
           "&:hover": {
-            backgroundColor: "rgba(224, 49, 49, 0.1)",
-            color: "#ff4d4d",
+            backgroundColor: "rgba(146, 187, 227, 0.1)",
+            color: "#b3d9ff",
           },
         },
         body: {
-          backgroundColor: "#1a1a1a",
+          backgroundColor: "#010d17",
         },
       }}
     >
@@ -149,8 +155,8 @@ export const AddItemModalMantine: React.FC<AddItemModalProps> = ({
                 borderColor: "#666",
                 color: "#ffffff",
                 "&:focus": {
-                  borderColor: "#e03131",
-                  boxShadow: "0 0 0 2px rgba(224, 49, 49, 0.2)",
+                  borderColor: "#92bbe3",
+                  boxShadow: "0 0 0 2px rgba(146, 187, 227, 0.2)",
                 },
                 "&::placeholder": {
                   color: "#999",
@@ -186,8 +192,8 @@ export const AddItemModalMantine: React.FC<AddItemModalProps> = ({
                 borderColor: "#666",
                 color: "#ffffff",
                 "&:focus": {
-                  borderColor: "#e03131",
-                  boxShadow: "0 0 0 2px rgba(224, 49, 49, 0.2)",
+                  borderColor: "#92bbe3",
+                  boxShadow: "0 0 0 2px rgba(146, 187, 227, 0.2)",
                 },
                 "&::placeholder": {
                   color: "#999",
@@ -223,8 +229,8 @@ export const AddItemModalMantine: React.FC<AddItemModalProps> = ({
                 borderColor: "#666",
                 color: "#ffffff",
                 "&:focus": {
-                  borderColor: "#e03131",
-                  boxShadow: "0 0 0 2px rgba(224, 49, 49, 0.2)",
+                  borderColor: "#92bbe3",
+                  boxShadow: "0 0 0 2px rgba(146, 187, 227, 0.2)",
                 },
                 "&::placeholder": {
                   color: "#999",
@@ -362,7 +368,7 @@ export const AddItemModalMantine: React.FC<AddItemModalProps> = ({
             <Button
               type="submit"
               variant="gradient"
-              gradient={{ from: "red.6", to: "red.8" }}
+              gradient={{ from: "blue.4", to: "blue.8" }}
               disabled={!formData.name.trim() || createItemMutation.isPending}
               loading={createItemMutation.isPending}
               leftSection={<IconPlus size={16} />}
