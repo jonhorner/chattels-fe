@@ -218,6 +218,36 @@ export const ItemsPageMantine: React.FC = () => {
             clearable
             style={{ minWidth: 200 }}
             radius="md"
+            styles={{
+              input: {
+                backgroundColor: '#134168',
+                borderColor: '#92bbe3',
+                color: '#ffffff',
+                '&:focus': {
+                  borderColor: '#92bbe3',
+                  boxShadow: '0 0 0 2px rgba(146, 187, 227, 0.2)',
+                },
+                '&::placeholder': {
+                  color: '#b3d9ff',
+                },
+              },
+              dropdown: {
+                backgroundColor: '#134168',
+                borderColor: '#92bbe3',
+                border: '1px solid #92bbe3',
+              },
+              option: {
+                color: '#ffffff',
+                backgroundColor: 'transparent',
+                '&[data-selected]': {
+                  backgroundColor: '#92bbe3',
+                  color: '#010d17',
+                },
+                '&[data-hovered]': {
+                  backgroundColor: 'rgba(146, 187, 227, 0.2)',
+                },
+              },
+            }}
           />
 
           <Select
@@ -231,6 +261,36 @@ export const ItemsPageMantine: React.FC = () => {
             clearable
             style={{ minWidth: 200 }}
             radius="md"
+            styles={{
+              input: {
+                backgroundColor: '#134168',
+                borderColor: '#92bbe3',
+                color: '#ffffff',
+                '&:focus': {
+                  borderColor: '#92bbe3',
+                  boxShadow: '0 0 0 2px rgba(146, 187, 227, 0.2)',
+                },
+                '&::placeholder': {
+                  color: '#b3d9ff',
+                },
+              },
+              dropdown: {
+                backgroundColor: '#134168',
+                borderColor: '#92bbe3',
+                border: '1px solid #92bbe3',
+              },
+              option: {
+                color: '#ffffff',
+                backgroundColor: 'transparent',
+                '&[data-selected]': {
+                  backgroundColor: '#92bbe3',
+                  color: '#010d17',
+                },
+                '&[data-hovered]': {
+                  backgroundColor: 'rgba(146, 187, 227, 0.2)',
+                },
+              },
+            }}
           />
 
           {hasActiveFilters && (
