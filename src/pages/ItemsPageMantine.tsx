@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Title,
   Button,
@@ -19,6 +19,7 @@ import {
   Divider,
   Pagination,
   NumberFormatter,
+  TextInput,
 } from '@mantine/core';
 import {
   IconPlus,
@@ -30,6 +31,8 @@ import {
   IconChevronDown,
   IconChevronUp,
   IconAlertCircle,
+  IconSearch,
+  IconX,
 } from '@tabler/icons-react';
 import { useItems, useCategories, useLocations, useDeleteItem } from '../hooks';
 import { AddItemModalMantine } from '../components/AddItemModalMantine';
@@ -48,13 +51,26 @@ export const ItemsPageMantine: React.FC = () => {
   const [page, setPage] = useState(1);
   const [categoryFilter, setCategoryFilter] = useState<string>('');
   const [locationFilter, setLocationFilter] = useState<string>('');
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [debouncedSearchQuery, setDebouncedSearchQuery] = useState<string>('');
   const limit = 12;
+
+  // Debounce search query
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearchQuery(searchQuery);
+      setPage(1); // Reset to first page when search changes
+    }, 300); // 300ms delay
+
+    return () => clearTimeout(timer);
+  }, [searchQuery]);
 
   const { data: itemsData, isLoading: itemsLoading, error: itemsError } = useItems({ 
     page, 
     limit,
     categoryId: categoryFilter ? Number(categoryFilter) : undefined,
-    locationId: locationFilter ? Number(locationFilter) : undefined
+    locationId: locationFilter ? Number(locationFilter) : undefined,
+    search: debouncedSearchQuery || undefined
   });
   const { data: categoriesData } = useCategories({ limit: 100 });
   const { data: locationsData } = useLocations({ limit: 100 });
@@ -134,10 +150,11 @@ export const ItemsPageMantine: React.FC = () => {
   const clearFilters = () => {
     setCategoryFilter('');
     setLocationFilter('');
+    setSearchQuery('');
     setPage(1);
   };
 
-  const hasActiveFilters = categoryFilter !== '' || locationFilter !== '';
+  const hasActiveFilters = categoryFilter !== '' || locationFilter !== '' || searchQuery !== '';
 
   const categoryOptions = categories.map(cat => ({
     value: cat.id.toString(),
@@ -201,13 +218,58 @@ export const ItemsPageMantine: React.FC = () => {
         background: 'linear-gradient(135deg, #010d17 0%, #1a1a1a 100%)',
         border: '1px solid #92bbe3'
       }}>
-        <Group align="center" gap="md">
+        <Stack gap="md">
           <Group gap="xs" c="dimmed">
             <IconFilter size={20} />
-            <Text fw={500}>Filters:</Text>
+            <Text fw={500}>Search & Filters:</Text>
           </Group>
           
-          <Select
+          {/* Search Input */}
+          <TextInput
+            placeholder="Search items by name or description..."
+            value={searchQuery}
+            onChange={(event) => {
+              setSearchQuery(event.target.value);
+            }}
+            leftSection={<IconSearch size={18} />}
+            rightSection={
+              searchQuery ? (
+                <ActionIcon
+                  size="sm"
+                  variant="subtle"
+                  color="gray"
+                  onClick={() => {
+                    setSearchQuery('');
+                    setPage(1);
+                  }}
+                >
+                  <IconX size={16} />
+                </ActionIcon>
+              ) : null
+            }
+            radius="md"
+            size="md"
+            styles={{
+              input: {
+                backgroundColor: '#134168',
+                borderColor: '#92bbe3',
+                color: '#ffffff',
+                '&:focus': {
+                  borderColor: '#92bbe3',
+                  boxShadow: '0 0 0 2px rgba(146, 187, 227, 0.2)',
+                },
+                '&::placeholder': {
+                  color: '#b3d9ff',
+                },
+              },
+              section: {
+                color: '#92bbe3',
+              },
+            }}
+          />
+          
+          <Group align="center" gap="md">
+            <Select
             placeholder="All Categories"
             data={categoryOptions}
             value={categoryFilter}
@@ -304,7 +366,8 @@ export const ItemsPageMantine: React.FC = () => {
               Clear Filters
             </Button>
           )}
-        </Group>
+          </Group>
+        </Stack>
       </Paper>
 
       {/* Items Grid */}

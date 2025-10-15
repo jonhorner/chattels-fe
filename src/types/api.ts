@@ -102,6 +102,7 @@ export interface PaginationParams {
   limit?: number;
   categoryId?: number;
   locationId?: number;
+  search?: string;
 }
 
 // Extended item type with populated relations (for display purposes)
