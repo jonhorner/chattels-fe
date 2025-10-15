@@ -133,12 +133,13 @@ export const AddItemModalMantine: React.FC<AddItemModalProps> = ({
             label="Name *"
             placeholder="Enter item name"
             value={formData.name}
-            onChange={(event) =>
+            onChange={(event) => {
+              const value = event.target.value;
               setFormData((prev) => ({
                 ...prev,
-                name: event.currentTarget.value,
-              }))
-            }
+                name: value,
+              }));
+            }}
             disabled={createItemMutation.isPending}
             required
             radius="md"
@@ -170,12 +171,13 @@ export const AddItemModalMantine: React.FC<AddItemModalProps> = ({
             label="Description"
             placeholder="Enter item description"
             value={formData.description || ""}
-            onChange={(event) =>
+            onChange={(event) => {
+              const value = event.target.value;
               setFormData((prev) => ({
                 ...prev,
-                description: event.currentTarget.value,
-              }))
-            }
+                description: value,
+              }));
+            }}
             disabled={createItemMutation.isPending}
             rows={3}
             radius="md"
