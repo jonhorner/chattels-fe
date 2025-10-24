@@ -33,6 +33,7 @@ import {
   IconAlertCircle,
   IconSearch,
   IconX,
+  IconExternalLink,
 } from '@tabler/icons-react';
 import { useItems, useCategories, useLocations, useDeleteItem } from '../hooks';
 import { AddItemModalMantine } from '../components/AddItemModalMantine';
@@ -420,7 +421,7 @@ export const ItemsPageMantine: React.FC = () => {
                       </>
                     )}
 
-                    {(category || location) && (
+                    {(category || location || item.url) && (
                       <Group gap="xs" mt="sm">
                         {category && (
                           <Badge variant="light" color="blue" size="sm">
@@ -431,6 +432,20 @@ export const ItemsPageMantine: React.FC = () => {
                           <Badge variant="light" color="gray" size="sm">
                             {location.name}
                           </Badge>
+                        )}
+                        {item.url && (
+                          <ActionIcon
+                            component="a"
+                            href={item.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            variant="light"
+                            color="blue"
+                            size="sm"
+                            title="Open URL"
+                          >
+                            <IconExternalLink size={16} />
+                          </ActionIcon>
                         )}
                       </Group>
                     )}
