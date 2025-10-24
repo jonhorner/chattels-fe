@@ -37,6 +37,7 @@ export const EditItemModalMantine: React.FC<EditItemModalProps> = ({
     value: undefined,
     categoryId: undefined,
     locationId: undefined,
+    url: "",
   });
 
   const updateItemMutation = useUpdateItem();
@@ -52,6 +53,7 @@ export const EditItemModalMantine: React.FC<EditItemModalProps> = ({
         value: item.value,
         categoryId: item.categoryId,
         locationId: item.locationId,
+        url: item.url || "",
       });
     }
   }, [item]);
@@ -67,6 +69,7 @@ export const EditItemModalMantine: React.FC<EditItemModalProps> = ({
         name: formData.name?.trim(),
         description: formData.description?.trim() || undefined,
         value: formData.value || undefined,
+        url: formData.url?.trim() || undefined,
       };
 
       await updateItemMutation.mutateAsync({ id: item.id, item: itemData });
@@ -83,6 +86,7 @@ export const EditItemModalMantine: React.FC<EditItemModalProps> = ({
       value: undefined,
       categoryId: undefined,
       locationId: undefined,
+      url: "",
     });
     updateItemMutation.reset();
     onClose();
@@ -193,6 +197,40 @@ export const EditItemModalMantine: React.FC<EditItemModalProps> = ({
             }
             disabled={updateItemMutation.isPending}
             rows={3}
+            radius="md"
+            size="md"
+            styles={{
+              label: {
+                color: "#ffffff",
+                fontSize: "14px",
+                fontWeight: 500,
+                marginBottom: "8px",
+              },
+              input: {
+                backgroundColor: "#2d2d2d",
+                borderColor: "#666",
+                color: "#ffffff",
+                "&:focus": {
+                  borderColor: "#e03131",
+                  boxShadow: "0 0 0 2px rgba(224, 49, 49, 0.2)",
+                },
+                "&::placeholder": { color: "#999" },
+              },
+            }}
+          />
+
+          {/* URL */}
+          <TextInput
+            label="URL"
+            placeholder="https://example.com"
+            value={formData.url || ""}
+            onChange={(event) =>
+              setFormData((prev) => ({
+                ...prev,
+                url: event.currentTarget.value,
+              }))
+            }
+            disabled={updateItemMutation.isPending}
             radius="md"
             size="md"
             styles={{

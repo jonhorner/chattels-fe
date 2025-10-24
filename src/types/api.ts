@@ -21,6 +21,7 @@ export interface Item {
   value?: number;
   locationId?: number;
   categoryId?: number;
+  url?: string;
   updatedAt?: string;
 }
 
@@ -66,6 +67,7 @@ export interface CreateItem {
   value?: number;
   locationId?: number;
   categoryId?: number;
+  url?: string;
   updatedAt?: string;
 }
 
@@ -75,6 +77,7 @@ export interface UpdateItem {
   value?: number;
   locationId?: number;
   categoryId?: number;
+  url?: string;
   updatedAt?: string;
 }
 

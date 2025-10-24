@@ -31,6 +31,7 @@ export const AddItemModalMantine: React.FC<AddItemModalProps> = ({
     value: undefined,
     categoryId: undefined,
     locationId: undefined,
+    url: "",
   });
 
   const createItemMutation = useCreateItem();
@@ -48,6 +49,7 @@ export const AddItemModalMantine: React.FC<AddItemModalProps> = ({
         name: formData.name.trim(),
         description: formData.description?.trim() || undefined,
         value: formData.value || undefined,
+        url: formData.url?.trim() || undefined,
       };
 
       await createItemMutation.mutateAsync(itemData);
@@ -64,6 +66,7 @@ export const AddItemModalMantine: React.FC<AddItemModalProps> = ({
       value: undefined,
       categoryId: undefined,
       locationId: undefined,
+      url: "",
     });
     createItemMutation.reset();
     onClose();
@@ -180,6 +183,43 @@ export const AddItemModalMantine: React.FC<AddItemModalProps> = ({
             }}
             disabled={createItemMutation.isPending}
             rows={3}
+            radius="md"
+            size="md"
+            styles={{
+              label: {
+                color: "#ffffff",
+                fontSize: "14px",
+                fontWeight: 500,
+                marginBottom: "8px",
+              },
+              input: {
+                backgroundColor: "#2d2d2d",
+                borderColor: "#666",
+                color: "#ffffff",
+                "&:focus": {
+                  borderColor: "#92bbe3",
+                  boxShadow: "0 0 0 2px rgba(146, 187, 227, 0.2)",
+                },
+                "&::placeholder": {
+                  color: "#999",
+                },
+              },
+            }}
+          />
+
+          {/* URL */}
+          <TextInput
+            label="URL"
+            placeholder="https://example.com"
+            value={formData.url || ""}
+            onChange={(event) => {
+              const value = event.target.value;
+              setFormData((prev) => ({
+                ...prev,
+                url: value,
+              }));
+            }}
+            disabled={createItemMutation.isPending}
             radius="md"
             size="md"
             styles={{
