@@ -320,14 +320,6 @@ export const AddItemModalMantine: React.FC<AddItemModalProps> = ({
               },
               option: {
                 color: "#ffffff",
-                backgroundColor: "transparent",
-                "&[data-selected]": {
-                  backgroundColor: "#e03131",
-                  color: "#ffffff",
-                },
-                "&[data-hovered]": {
-                  backgroundColor: "rgba(224, 49, 49, 0.1)",
-                },
               },
             }}
           />
@@ -371,14 +363,6 @@ export const AddItemModalMantine: React.FC<AddItemModalProps> = ({
               },
               option: {
                 color: "#ffffff",
-                backgroundColor: "transparent",
-                "&[data-selected]": {
-                  backgroundColor: "#e03131",
-                  color: "#ffffff",
-                },
-                "&[data-hovered]": {
-                  backgroundColor: "rgba(224, 49, 49, 0.1)",
-                },
               },
             }}
           />

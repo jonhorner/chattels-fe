@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Modal,
   TextInput,
@@ -43,10 +43,12 @@ export const EditItemModalMantine: React.FC<EditItemModalProps> = ({
   const updateItemMutation = useUpdateItem();
   const { data: categoriesData } = useCategories({ limit: 100 });
   const { data: locationsData } = useLocations({ limit: 100 });
+  const lastItemIdRef = useRef<number | null>(null);
 
-  // Update form data when item changes
+  // Update form data only when a new item is opened
   useEffect(() => {
-    if (item) {
+    if (item && isOpen && item.id !== lastItemIdRef.current) {
+      lastItemIdRef.current = item.id;
       setFormData({
         name: item.name,
         description: item.description || "",
@@ -56,7 +58,10 @@ export const EditItemModalMantine: React.FC<EditItemModalProps> = ({
         url: item.url || "",
       });
     }
-  }, [item]);
+    if (!isOpen) {
+      lastItemIdRef.current = null;
+    }
+  }, [item, isOpen]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -152,12 +157,13 @@ export const EditItemModalMantine: React.FC<EditItemModalProps> = ({
             label="Name *"
             placeholder="Enter item name"
             value={formData.name || ""}
-            onChange={(event) =>
+            onChange={(event) => {
+              const value = event.currentTarget.value;
               setFormData((prev) => ({
                 ...prev,
-                name: event.currentTarget.value,
-              }))
-            }
+                name: value,
+              }));
+            }}
             disabled={updateItemMutation.isPending}
             required
             radius="md"
@@ -189,12 +195,13 @@ export const EditItemModalMantine: React.FC<EditItemModalProps> = ({
             label="Description"
             placeholder="Enter item description"
             value={formData.description || ""}
-            onChange={(event) =>
+            onChange={(event) => {
+              const value = event.currentTarget.value;
               setFormData((prev) => ({
                 ...prev,
-                description: event.currentTarget.value,
-              }))
-            }
+                description: value,
+              }));
+            }}
             disabled={updateItemMutation.isPending}
             rows={3}
             radius="md"
@@ -224,12 +231,13 @@ export const EditItemModalMantine: React.FC<EditItemModalProps> = ({
             label="URL"
             placeholder="https://example.com"
             value={formData.url || ""}
-            onChange={(event) =>
+            onChange={(event) => {
+              const value = event.currentTarget.value;
               setFormData((prev) => ({
                 ...prev,
-                url: event.currentTarget.value,
-              }))
-            }
+                url: value,
+              }));
+            }}
             disabled={updateItemMutation.isPending}
             radius="md"
             size="md"
@@ -327,14 +335,6 @@ export const EditItemModalMantine: React.FC<EditItemModalProps> = ({
               },
               option: {
                 color: "#ffffff",
-                backgroundColor: "transparent",
-                "&[data-selected]": {
-                  backgroundColor: "#e03131",
-                  color: "#ffffff",
-                },
-                "&[data-hovered]": {
-                  backgroundColor: "rgba(224, 49, 49, 0.1)",
-                },
               },
             }}
           />
@@ -378,14 +378,6 @@ export const EditItemModalMantine: React.FC<EditItemModalProps> = ({
               },
               option: {
                 color: "#ffffff",
-                backgroundColor: "transparent",
-                "&[data-selected]": {
-                  backgroundColor: "#e03131",
-                  color: "#ffffff",
-                },
-                "&[data-hovered]": {
-                  backgroundColor: "rgba(224, 49, 49, 0.1)",
-                },
               },
             }}
           />

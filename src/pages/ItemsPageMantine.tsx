@@ -300,14 +300,6 @@ export const ItemsPageMantine: React.FC = () => {
               },
               option: {
                 color: '#ffffff',
-                backgroundColor: 'transparent',
-                '&[data-selected]': {
-                  backgroundColor: '#92bbe3',
-                  color: '#010d17',
-                },
-                '&[data-hovered]': {
-                  backgroundColor: 'rgba(146, 187, 227, 0.2)',
-                },
               },
             }}
           />
@@ -343,14 +335,6 @@ export const ItemsPageMantine: React.FC = () => {
               },
               option: {
                 color: '#ffffff',
-                backgroundColor: 'transparent',
-                '&[data-selected]': {
-                  backgroundColor: '#92bbe3',
-                  color: '#010d17',
-                },
-                '&[data-hovered]': {
-                  backgroundColor: 'rgba(146, 187, 227, 0.2)',
-                },
               },
             }}
           />
