@@ -33,6 +33,7 @@ export const AddItemModalMantine: React.FC<AddItemModalProps> = ({
     locationId: undefined,
     url: "",
     serialNumber: "",
+    purchaseDate: "",
   });
 
   const createItemMutation = useCreateItem();
@@ -52,6 +53,7 @@ export const AddItemModalMantine: React.FC<AddItemModalProps> = ({
         value: formData.value || undefined,
         url: formData.url?.trim() || undefined,
         serialNumber: formData.serialNumber?.trim() || undefined,
+        purchaseDate: formData.purchaseDate?.trim() || undefined,
       };
 
       await createItemMutation.mutateAsync(itemData);
@@ -70,6 +72,7 @@ export const AddItemModalMantine: React.FC<AddItemModalProps> = ({
       locationId: undefined,
       url: "",
       serialNumber: "",
+      purchaseDate: "",
     });
     createItemMutation.reset();
     onClose();
@@ -257,6 +260,44 @@ export const AddItemModalMantine: React.FC<AddItemModalProps> = ({
               setFormData((prev) => ({
                 ...prev,
                 serialNumber: value,
+              }));
+            }}
+            disabled={createItemMutation.isPending}
+            radius="md"
+            size="md"
+            styles={{
+              label: {
+                color: "#ffffff",
+                fontSize: "14px",
+                fontWeight: 500,
+                marginBottom: "8px",
+              },
+              input: {
+                backgroundColor: "#2d2d2d",
+                borderColor: "#666",
+                color: "#ffffff",
+                "&:focus": {
+                  borderColor: "#92bbe3",
+                  boxShadow: "0 0 0 2px rgba(146, 187, 227, 0.2)",
+                },
+                "&::placeholder": {
+                  color: "#999",
+                },
+              },
+            }}
+          />
+
+          {/* Purchase Date */}
+          <TextInput
+            label="Purchase Date"
+            placeholder="MM/DD/YYYY"
+            type="date"
+            value={formData.purchaseDate || ""}
+            onChange={(event) => {
+              const value = event.target.value;
+              setFormData((prev) => ({
+                ...prev,
+                purchaseDate: value,
               }));
             }}
             disabled={createItemMutation.isPending}

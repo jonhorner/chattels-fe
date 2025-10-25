@@ -39,6 +39,7 @@ export const EditItemModalMantine: React.FC<EditItemModalProps> = ({
     locationId: undefined,
     url: "",
     serialNumber: "",
+    purchaseDate: "",
   });
 
   const updateItemMutation = useUpdateItem();
@@ -58,6 +59,7 @@ export const EditItemModalMantine: React.FC<EditItemModalProps> = ({
         locationId: item.locationId,
         url: item.url || "",
         serialNumber: item.serialNumber || "",
+        purchaseDate: item.purchaseDate || "",
       });
     }
     if (!isOpen) {
@@ -78,6 +80,7 @@ export const EditItemModalMantine: React.FC<EditItemModalProps> = ({
         value: formData.value || undefined,
         url: formData.url?.trim() || undefined,
         serialNumber: formData.serialNumber?.trim() || undefined,
+        purchaseDate: formData.purchaseDate?.trim() || undefined,
       };
 
       await updateItemMutation.mutateAsync({ id: item.id, item: itemData });
@@ -96,6 +99,7 @@ export const EditItemModalMantine: React.FC<EditItemModalProps> = ({
       locationId: undefined,
       url: "",
       serialNumber: "",
+      purchaseDate: "",
     });
     updateItemMutation.reset();
     onClose();
@@ -275,6 +279,42 @@ export const EditItemModalMantine: React.FC<EditItemModalProps> = ({
               setFormData((prev) => ({
                 ...prev,
                 serialNumber: value,
+              }));
+            }}
+            disabled={updateItemMutation.isPending}
+            radius="md"
+            size="md"
+            styles={{
+              label: {
+                color: "#ffffff",
+                fontSize: "14px",
+                fontWeight: 500,
+                marginBottom: "8px",
+              },
+              input: {
+                backgroundColor: "#2d2d2d",
+                borderColor: "#666",
+                color: "#ffffff",
+                "&:focus": {
+                  borderColor: "#e03131",
+                  boxShadow: "0 0 0 2px rgba(224, 49, 49, 0.2)",
+                },
+                "&::placeholder": { color: "#999" },
+              },
+            }}
+          />
+
+          {/* Purchase Date */}
+          <TextInput
+            label="Purchase Date"
+            placeholder="MM/DD/YYYY"
+            type="date"
+            value={formData.purchaseDate || ""}
+            onChange={(event) => {
+              const value = event.currentTarget.value;
+              setFormData((prev) => ({
+                ...prev,
+                purchaseDate: value,
               }));
             }}
             disabled={updateItemMutation.isPending}

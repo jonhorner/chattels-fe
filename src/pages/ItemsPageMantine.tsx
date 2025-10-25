@@ -34,6 +34,8 @@ import {
   IconSearch,
   IconX,
   IconExternalLink,
+  IconArrowUp,
+  IconArrowDown,
 } from '@tabler/icons-react';
 import { useItems, useCategories, useLocations, useDeleteItem } from '../hooks';
 import { AddItemModalMantine } from '../components/AddItemModalMantine';
@@ -54,6 +56,8 @@ export const ItemsPageMantine: React.FC = () => {
   const [locationFilter, setLocationFilter] = useState<string>('');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [debouncedSearchQuery, setDebouncedSearchQuery] = useState<string>('');
+  const [sortBy, setSortBy] = useState<string>('name');
+  const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
   const limit = 12;
 
   // Debounce search query
@@ -87,10 +91,56 @@ export const ItemsPageMantine: React.FC = () => {
     return new Map(locationsData.data.map(loc => [loc.id, loc]));
   }, [locationsData]);
 
-  const items = itemsData?.data || [];
+  let items = itemsData?.data || [];
   const pagination = itemsData?.pagination;
   const categories = categoriesData?.data || [];
   const locations = locationsData?.data || [];
+
+  // Client-side sorting
+  items = React.useMemo(() => {
+    const sorted = [...items].sort((a, b) => {
+      let aValue: any;
+      let bValue: any;
+
+      switch (sortBy) {
+        case 'name':
+          aValue = a.name?.toLowerCase() || '';
+          bValue = b.name?.toLowerCase() || '';
+          break;
+        case 'value':
+          aValue = a.value || 0;
+          bValue = b.value || 0;
+          break;
+        case 'purchaseDate':
+          aValue = a.purchaseDate ? new Date(a.purchaseDate).getTime() : 0;
+          bValue = b.purchaseDate ? new Date(b.purchaseDate).getTime() : 0;
+          break;
+        case 'updatedAt':
+          aValue = a.updatedAt ? new Date(a.updatedAt).getTime() : 0;
+          bValue = b.updatedAt ? new Date(b.updatedAt).getTime() : 0;
+          break;
+        case 'category':
+          const aCat = a.categoryId ? categoriesMap.get(a.categoryId)?.name?.toLowerCase() : '';
+          const bCat = b.categoryId ? categoriesMap.get(b.categoryId)?.name?.toLowerCase() : '';
+          aValue = aCat || '';
+          bValue = bCat || '';
+          break;
+        case 'location':
+          const aLoc = a.locationId ? locationsMap.get(a.locationId)?.name?.toLowerCase() : '';
+          const bLoc = b.locationId ? locationsMap.get(b.locationId)?.name?.toLowerCase() : '';
+          aValue = aLoc || '';
+          bValue = bLoc || '';
+          break;
+        default:
+          return 0;
+      }
+
+      if (aValue < bValue) return sortOrder === 'asc' ? -1 : 1;
+      if (aValue > bValue) return sortOrder === 'asc' ? 1 : -1;
+      return 0;
+    });
+    return sorted;
+  }, [items, sortBy, sortOrder, categoriesMap, locationsMap]);
 
   const totalValue = React.useMemo(() => {
     return items.reduce((sum, item) => sum + (item.value || 0), 0);
@@ -152,10 +202,12 @@ export const ItemsPageMantine: React.FC = () => {
     setCategoryFilter('');
     setLocationFilter('');
     setSearchQuery('');
+    setSortBy('name');
+    setSortOrder('asc');
     setPage(1);
   };
 
-  const hasActiveFilters = categoryFilter !== '' || locationFilter !== '' || searchQuery !== '';
+  const hasActiveFilters = categoryFilter !== '' || locationFilter !== '' || searchQuery !== '' || sortBy !== 'name' || sortOrder !== 'asc';
 
   const categoryOptions = categories.map(cat => ({
     value: cat.id.toString(),
@@ -269,7 +321,7 @@ export const ItemsPageMantine: React.FC = () => {
             }}
           />
           
-          <Group align="center" gap="md">
+          <Group align="center" gap="md" wrap="wrap">
             <Select
             placeholder="All Categories"
             data={categoryOptions}
@@ -340,6 +392,55 @@ export const ItemsPageMantine: React.FC = () => {
             }}
           />
 
+          <Select
+            placeholder="Sort by"
+            data={[
+              { value: 'name', label: 'Name' },
+              { value: 'value', label: 'Value' },
+              { value: 'purchaseDate', label: 'Purchase Date' },
+              { value: 'updatedAt', label: 'Updated Date' },
+              { value: 'category', label: 'Category' },
+              { value: 'location', label: 'Location' },
+            ]}
+            value={sortBy}
+            onChange={(value) => setSortBy(value || 'name')}
+            style={{ minWidth: 180 }}
+            radius="md"
+            styles={{
+              input: {
+                backgroundColor: '#134168',
+                borderColor: '#92bbe3',
+                color: '#ffffff',
+                '&:focus': {
+                  borderColor: '#92bbe3',
+                  boxShadow: '0 0 0 2px rgba(146, 187, 227, 0.2)',
+                },
+                '&::placeholder': {
+                  color: '#b3d9ff',
+                },
+              },
+              dropdown: {
+                backgroundColor: '#134168',
+                borderColor: '#92bbe3',
+                border: '1px solid #92bbe3',
+              },
+              option: {
+                color: '#ffffff',
+              },
+            }}
+          />
+
+          <ActionIcon
+            size="lg"
+            variant="light"
+            color="blue"
+            onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}
+            radius="md"
+            title={sortOrder === 'asc' ? 'Ascending' : 'Descending'}
+          >
+            {sortOrder === 'asc' ? <IconArrowUp size={20} /> : <IconArrowDown size={20} />}
+          </ActionIcon>
+
           {hasActiveFilters && (
             <Button
               leftSection={<IconFilterX size={16} />}
@@ -348,7 +449,7 @@ export const ItemsPageMantine: React.FC = () => {
               onClick={clearFilters}
               radius="md"
             >
-              Clear Filters
+              Clear All
             </Button>
           )}
           </Group>
@@ -453,6 +554,12 @@ export const ItemsPageMantine: React.FC = () => {
                     {item.serialNumber && (
                       <Text size="xs" c="dimmed" mt="sm" style={{ fontFamily: 'monospace' }}>
                         S/N: {item.serialNumber}
+                      </Text>
+                    )}
+
+                    {item.purchaseDate && (
+                      <Text size="xs" c="dimmed" mt="sm">
+                        Purchased: {item.purchaseDate}
                       </Text>
                     )}
 

@@ -23,6 +23,7 @@ export interface Item {
   categoryId?: number;
   url?: string;
   serialNumber?: string;
+  purchaseDate?: string;
   updatedAt?: string;
 }
 
@@ -70,6 +71,7 @@ export interface CreateItem {
   categoryId?: number;
   url?: string;
   serialNumber?: string;
+  purchaseDate?: string;
   updatedAt?: string;
 }
 
@@ -81,6 +83,7 @@ export interface UpdateItem {
   categoryId?: number;
   url?: string;
   serialNumber?: string;
+  purchaseDate?: string;
   updatedAt?: string;
 }
 
