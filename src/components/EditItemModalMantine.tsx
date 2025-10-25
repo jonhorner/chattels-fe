@@ -38,6 +38,7 @@ export const EditItemModalMantine: React.FC<EditItemModalProps> = ({
     categoryId: undefined,
     locationId: undefined,
     url: "",
+    serialNumber: "",
   });
 
   const updateItemMutation = useUpdateItem();
@@ -56,6 +57,7 @@ export const EditItemModalMantine: React.FC<EditItemModalProps> = ({
         categoryId: item.categoryId,
         locationId: item.locationId,
         url: item.url || "",
+        serialNumber: item.serialNumber || "",
       });
     }
     if (!isOpen) {
@@ -75,6 +77,7 @@ export const EditItemModalMantine: React.FC<EditItemModalProps> = ({
         description: formData.description?.trim() || undefined,
         value: formData.value || undefined,
         url: formData.url?.trim() || undefined,
+        serialNumber: formData.serialNumber?.trim() || undefined,
       };
 
       await updateItemMutation.mutateAsync({ id: item.id, item: itemData });
@@ -92,6 +95,7 @@ export const EditItemModalMantine: React.FC<EditItemModalProps> = ({
       categoryId: undefined,
       locationId: undefined,
       url: "",
+      serialNumber: "",
     });
     updateItemMutation.reset();
     onClose();
@@ -236,6 +240,41 @@ export const EditItemModalMantine: React.FC<EditItemModalProps> = ({
               setFormData((prev) => ({
                 ...prev,
                 url: value,
+              }));
+            }}
+            disabled={updateItemMutation.isPending}
+            radius="md"
+            size="md"
+            styles={{
+              label: {
+                color: "#ffffff",
+                fontSize: "14px",
+                fontWeight: 500,
+                marginBottom: "8px",
+              },
+              input: {
+                backgroundColor: "#2d2d2d",
+                borderColor: "#666",
+                color: "#ffffff",
+                "&:focus": {
+                  borderColor: "#e03131",
+                  boxShadow: "0 0 0 2px rgba(224, 49, 49, 0.2)",
+                },
+                "&::placeholder": { color: "#999" },
+              },
+            }}
+          />
+
+          {/* Serial Number */}
+          <TextInput
+            label="Serial Number"
+            placeholder="Enter serial number"
+            value={formData.serialNumber || ""}
+            onChange={(event) => {
+              const value = event.currentTarget.value;
+              setFormData((prev) => ({
+                ...prev,
+                serialNumber: value,
               }));
             }}
             disabled={updateItemMutation.isPending}

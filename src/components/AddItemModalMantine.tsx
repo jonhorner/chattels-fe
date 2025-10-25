@@ -32,6 +32,7 @@ export const AddItemModalMantine: React.FC<AddItemModalProps> = ({
     categoryId: undefined,
     locationId: undefined,
     url: "",
+    serialNumber: "",
   });
 
   const createItemMutation = useCreateItem();
@@ -50,6 +51,7 @@ export const AddItemModalMantine: React.FC<AddItemModalProps> = ({
         description: formData.description?.trim() || undefined,
         value: formData.value || undefined,
         url: formData.url?.trim() || undefined,
+        serialNumber: formData.serialNumber?.trim() || undefined,
       };
 
       await createItemMutation.mutateAsync(itemData);
@@ -67,6 +69,7 @@ export const AddItemModalMantine: React.FC<AddItemModalProps> = ({
       categoryId: undefined,
       locationId: undefined,
       url: "",
+      serialNumber: "",
     });
     createItemMutation.reset();
     onClose();
@@ -217,6 +220,43 @@ export const AddItemModalMantine: React.FC<AddItemModalProps> = ({
               setFormData((prev) => ({
                 ...prev,
                 url: value,
+              }));
+            }}
+            disabled={createItemMutation.isPending}
+            radius="md"
+            size="md"
+            styles={{
+              label: {
+                color: "#ffffff",
+                fontSize: "14px",
+                fontWeight: 500,
+                marginBottom: "8px",
+              },
+              input: {
+                backgroundColor: "#2d2d2d",
+                borderColor: "#666",
+                color: "#ffffff",
+                "&:focus": {
+                  borderColor: "#92bbe3",
+                  boxShadow: "0 0 0 2px rgba(146, 187, 227, 0.2)",
+                },
+                "&::placeholder": {
+                  color: "#999",
+                },
+              },
+            }}
+          />
+
+          {/* Serial Number */}
+          <TextInput
+            label="Serial Number"
+            placeholder="Enter serial number"
+            value={formData.serialNumber || ""}
+            onChange={(event) => {
+              const value = event.target.value;
+              setFormData((prev) => ({
+                ...prev,
+                serialNumber: value,
               }));
             }}
             disabled={createItemMutation.isPending}

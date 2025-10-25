@@ -450,6 +450,12 @@ export const ItemsPageMantine: React.FC = () => {
                       </Group>
                     )}
 
+                    {item.serialNumber && (
+                      <Text size="xs" c="dimmed" mt="sm" style={{ fontFamily: 'monospace' }}>
+                        S/N: {item.serialNumber}
+                      </Text>
+                    )}
+
                     {item.updatedAt && (
                       <Text size="xs" c="dimmed" mt="sm">
                         Updated: {item.updatedAt}
